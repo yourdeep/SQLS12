@@ -1,0 +1,144 @@
+                                                                                              LAB 1
+
+1) select staff_name,staff_sal,dept_code 
+    from staff_masters 
+    where dept_code in (20,30,40);
+
+2) select staff_code as Code, staff_name as Name  
+    from staff_masters;
+
+3) select student_code,subject1,subject2,subject3,(subject1+subject2+subject3)  
+    as total_marks 
+    from student_marks;
+
+4) select * from staff_masters  
+    inner join designation_masters 
+    on staff_masters.design_code=designation_masters.design_code 
+    where designation_masters.design_name='Professor' OR designation_masters.design_name='Lecturer';
+
+5) select staff_code,staff_name,dept_code 
+    from staff_masters 
+    where round(round(sysdate-hiredate)/365)>18;
+
+6) select staff_masters.staff_name,designation_masters.design_name 
+    from designation_masters 
+    inner join staff_masters 
+    on designation_masters.design_code=staff_masters.design_code where extract(year from staff_masters.hiredate)<2003;
+
+7) select staff_masters.staff_name,staff_masters.staff_sal*120 
+    as total_sal,designation_masters.design_name 
+    from designation_masters 
+    inner join staff_masters on designation_masters.design_code=staff_masters.design_code where dept_code='10' or dept_code='30';
+
+8) select staff_masters.staff_name,extract(year from current_date)-extract (year from hiredate)
+    as experience 
+    from staff_masters 
+    inner join designation_masters 
+    on staff_masters.design_code=designation_masters.design_code where designation_masters.design_name='Lecturer';
+
+9) select student_name,dept_code,concat(concat(student_name,','),dept_code)
+     as student_info 
+     from student_masters;
+
+10) select staff_name,staff_sal 
+      from staff_masters where staff_sal between 12000 and 25000 
+      order by staff_name,staff_sal;
+
+11) select staff_name 
+       from staff_masters where mgr_code=null;
+
+12) select student_name,dept_code,student_dob 
+       from student_masters where student_dob between '1-JAN-81' and '31-MAR-83'order by student_dob asc;
+
+13) select dept_code,sum(staff_sal) 
+      from staff_masters 
+      inner join designation_masters 
+      on designation_masters.design_code=staff_masters.design_code where designation_masters.design_name not in 'manager' 
+      group by dept_code having sum(staff_sal)>20000;
+
+14) select * from book_transactions where 
+      to_char(book_expected_return_date,'d')-2  and book_actual_return_date is null; ///error 
+
+15) select student_masters.student_name,student_masters.dept_code,NVL(department_masters.dept_name,'no department') 
+       as department 
+       from student_masters 
+       inner join department_masters 
+       on department_masters.dept_code=student_masters.dept_code;
+
+
+16) select staff_name,staff_sal, LPAD('X',(staff_sal/1000),'X') "X times Salary" from staff_master;
+
+                                                                                    LAB 2
+
+
+1) select student_name,to_char(student_dob,'MONTH DD YYYY') 
+    as student_dob 
+    from student_masters where to_char(student_dob,'D')=7 or to_char(student_dob,'D')=6;
+
+2) select staff_name, round(round(current_date-hiredate)/30) 
+     as months_worked 
+     from staff_masters order by Months_Worked;
+
+3) select * from staff_masters 
+    where staff_name like 'a%s' ;
+
+4) select staff_name  
+    from staff_masters where (staff_name like '_n%' or staff_name like '__n%') and (staff_name like 'n%' or staff_name like '%s');
+
+5 ) select staff_name,staff_sal , lpad (staff_sal,15,'$') as Salary from staff_masters;
+
+6 ) select staff_name from staff_masters where staff_name like '%\_%';
+
+7 )  select * from staff_masters where extract (month from hiredate)=12;
+
+8 ) select staff_name,staff_sal, case 
+     when staff_sal>50000 then 'A' when staff_sal>=25000 and staff_sal<50000 then 'B' when staff_sal>=10000 and staff_sal<25000 then 'C' else 'D' 
+     end as grade from staff_masters;
+
+9) select staff_name,hiredate,to_char(hiredate,'d') 
+    as Day from staff_masters order by day;
+
+10) select rpad('*', length(staff_name),'*') from staff_masters;
+
+11) select staff_name,rpad(rpad(substr(staff_name,1,1),length(staff_name)-1,'*'),length(staff_name),substr(staff_name,-1,1)) 
+       from staff_masters;
+
+12)  select * from staff_masters where to_char(hiredate,'dd')<=15;
+
+13) select staff_name,hiredate,to_char(hiredate,'d') 
+       as day 
+       from staff_masters order by day;
+
+14) select instr('Mississippi','i',1,3) from dual;
+
+
+15) select to_char(next_day(last_day(sysdate)-interval '7' day, 'friday' ),
+       2  'DDSPTH "of" MONTH,YYYY') paydate from dual;
+
+
+16) select round (max(staff_sal))
+       as Maximum, round (min(staff_sal)) as Minimum, round (sum(staff_sal)) as total, round (Avg(staff_sal)) as Average 
+       from staff_masters;
+
+
+17) select round (max(staff_sal))as Maximum, round (min(staff_sal)) as Minimum, round (sum(staff_sal)) 
+       as total, round (Avg(staff_sal)) as Average 
+      from staff_masters 
+      left outer join department_masters 
+      on staff_masters.dept_code= department_masters.dept_code group by department_masters.dept_name;
+
+
+18) select department_masters.dept_code,count(distinct staff_code)
+       as number_of_people,dept_name 
+       from department_masters 
+       left outer join staff_masters 
+       on department_masters.dept_code=staff_masters.dept_code group by department_masters.dept_code, department_masters.dept_name;
+
+
+19) select count(distinct mgr_code)as total_no_of_manager from staff_masters;
+
+20)  select mgr_code,min(staff_sal) 
+       from staff_masters 
+       group by mgr_code having min(staff_sal)>10000 order by min(staff_sal)desc;
+
+
