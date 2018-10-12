@@ -68,7 +68,8 @@ LAB 1
 
 16) select staff_name,staff_sal, LPAD('X',(staff_sal/1000),'X') "X times Salary" from staff_master;
 
-                                                                                    LAB 2
+
+LAB 2
 
 
 1) select student_name,to_char(student_dob,'MONTH DD YYYY') 
